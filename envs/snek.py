@@ -127,3 +127,24 @@ class snekEnv:
             pygame.draw.rect(screen , (255,0,0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
 
             pygame.display.flip()
+
+    if __name__ == "__main__":
+        pygame.init()
+        env = snekEnv()
+        screen = pygame.display.set_mode((env.width, env.height))
+        clock = pygame.time.Clock()
+
+        done = False
+        while not done:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    done = True
+
+            # simple test action
+            action = [1, 0, 0]  # always straight for now
+            next_state, score, reward, done = env.play_step(action)
+
+            env.render(screen)
+            clock.tick(10)
+
+        pygame.quit()
