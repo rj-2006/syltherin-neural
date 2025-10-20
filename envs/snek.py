@@ -70,11 +70,11 @@ class snekEnv:
         idx = clockwise.index(self.direction)
 
         if np.array_equal(action, [1,0,0]):
-            new_dir = Direction[idx]
-        if np.array_equal(action, [0,1,0]):
-            new_dir = Direction[(idx+1)%4]
-        else:
-            new_dir = Direction[(idx-1)%4]
+            new_dir = clockwise[idx]
+        elif np.array_equal(action, [0,1,0]):
+            new_dir = clockwise[(idx+1)%4]
+        else: # [0,0,1] left turn
+            new_dir = clockwise[(idx-1)%4]
         self.direction = new_dir
 
         x,y = self.head
@@ -98,7 +98,7 @@ class snekEnv:
                 pt = self.head
             if pt.x < 0 or pt.x >= self.width or pt.y < 0 or pt.y >= self.height:
                 return True
-            if pt.x in self.snake[1:]:
+            if pt in self.snake[1:]:
                 return True
             return False
 
@@ -117,3 +117,13 @@ class snekEnv:
             """
             renders the game window using pygame
             """
+            screen.fill((0,0,0))
+
+            #drawing the snek
+            for pt in self.snake:
+                pygame.draw.rect(screen, (0,255,0), pygame.Rect(pt.x, pt.y, BLOCK_SIZE, BLOCK_SIZE))
+
+            #drawing food
+            pygame.draw.rect(screen , (255,0,0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
+
+            pygame.display.flip()
