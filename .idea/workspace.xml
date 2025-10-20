@@ -5,8 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5c4afe-f297-4f7a-93e1-7306470a4350" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/slytherin_neural.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/slytherin_neural.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/envs/snek.py" beforeDir="false" afterPath="$PROJECT_DIR$/envs/snek.py" afterDir="false" />
     </list>
@@ -69,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1760893161930</updated>
       <workItem from="1760893171751" duration="2475000" />
-      <workItem from="1760980723089" duration="1481000" />
+      <workItem from="1760980723089" duration="2901000" />
     </task>
     <servers />
   </component>

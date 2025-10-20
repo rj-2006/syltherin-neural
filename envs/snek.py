@@ -20,23 +20,24 @@ class snekEnv:
         self.height = height
         self.reset()
 
-        def reset(self):
+    def reset(self):
             """
             resets the snake game to initial state
             snake moving to the right
             middle of the screen
             score is 0
             """
-            self.direction = DIRECTION.RIGHT
+            self.direction = Direction.RIGHT
             self.score = 0
             self.head = Point(self.width // 2, self.height // 2)
-            self.snake = self.head
+            self.snake = [self.head]
             self.food = None
             self.place_food()
+            self.frame = 0
             return np.array([0])
             """ place holder for now it'll return the game state in an array """
 
-        def play_step(self, action):
+    def play_step(self, action):
             """
             increase the frame iteration by 1
             checks for collision
@@ -48,24 +49,60 @@ class snekEnv:
             gameover = False
 
             self.move(action)
-            self.snake.inser(0, self.head)
+            self.snake.insert(0, self.head)
 
             if self.is_collision():
                 gameover = True
                 reward -= 10
                 return reward,gameover, self.score
 
-        def is_collision(pt):
+            if self.head == self.food:
+                self.score += 1
+                reward += 10
+                self.place_food()
+            else:
+                self.snake.pop()
+
+            return np.array([0]), self.score, reward, gameover
+
+    def move(self,action):
+        clockwise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
+        idx = clockwise.index(self.direction)
+
+        if np.array_equal(action, [1,0,0]):
+            new_dir = Direction[idx]
+        if np.array_equal(action, [0,1,0]):
+            new_dir = Direction[(idx+1)%4]
+        else:
+            new_dir = Direction[(idx-1)%4]
+        self.direction = new_dir
+
+        x,y = self.head
+        if self.direction == Direction.RIGHT:
+            x+=BLOCK_SIZE
+        if self.direction == Direction.LEFT:
+            x-=BLOCK_SIZE
+        if self.direction == Direction.UP:
+            y-=BLOCK_SIZE
+        if self.direction == Direction.DOWN:
+            y+=BLOCK_SIZE
+
+        self.head = Point(x,y)
+
+
+    def is_collision(self, pt=None):
             """
             checkss if snake has collided with itself or with the boundaries
             """
+            if pt is None:
+                pt = self.head
             if pt.x < 0 or pt.x >= self.width or pt.y < 0 or pt.y >= self.height:
                 return True
             if pt.x in self.snake[1:]:
                 return True
             return False
 
-        def place_food(self):
+    def place_food(self):
             """
             places food on the screen
             if food is on snake body moves it elsewhere
@@ -76,7 +113,7 @@ class snekEnv:
             if self.food in self.snake:
                 self.place_food()
 
-        def render():
+    def render(self, screen):
             """
             renders the game window using pygame
             """
