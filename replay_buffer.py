@@ -2,7 +2,7 @@ import random
 import numpy as np
 from collections import deque
 
-class replay_buffer:
+class Replay_buffer:
     def __init__(self, capacity = 10000):
         self.buffer = deque(maxlen = capacity)
     def push(self, state, reward,action, next_state,done):
