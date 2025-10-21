@@ -62,7 +62,7 @@ class SnekEnv:
         # 3) Check food
         if self.head == self.food:
             self.score += 1
-            reward = +10
+            reward = 10
             self._place_food()
         else:
             self.snake.pop()
@@ -83,13 +83,13 @@ class SnekEnv:
         return False
 
     def _move(self, action):
-        # action = [straight, right, left] (numpy array)
+        # action = 0: straight, 1: right, 2: left
         clockwise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clockwise.index(self.direction)
 
-        if np.array_equal(action, np.array([1, 0, 0])):  # straight
+        if action == 0:  # straight
             new_dir = clockwise[idx]
-        elif np.array_equal(action, np.array([0, 1, 0])):  # right turn
+        elif action == 1:  # right turn
             new_dir = clockwise[(idx + 1) % 4]
         else:  # left turn
             new_dir = clockwise[(idx - 1) % 4]
@@ -164,14 +164,3 @@ class SnekEnv:
 
         pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE))
         pygame.display.flip()
-
-
-if __name__ == "__main__":
-    env = SnekEnv()
-    done = False
-    while not done:
-        action = np.array([1, 0, 0])  # always straight for testing
-        _, _, done, score = env.play_step(action)
-
-    print("Final Score:", score)
-    pygame.quit()
