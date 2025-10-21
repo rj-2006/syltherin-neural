@@ -128,23 +128,71 @@ class snekEnv:
 
             pygame.display.flip()
 
-    if __name__ == "__main__":
-        pygame.init()
-        env = snekEnv()
-        screen = pygame.display.set_mode((env.width, env.height))
-        clock = pygame.time.Clock()
+    def get_state(self):
+        head = self.head
+        point_l = Point(head.x - BLOCK_SIZE, head.y)
+        point_r = Point(head.x + BLOCK_SIZE, head.y)
+        point_u = Point(head.x, head.y + BLOCK_SIZE)
+        point_d = Point(head.x, head.y + BLOCK_SIZE)
 
-        done = False
-        while not done:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
+        dir_l = self.direction == Direction.LEFT
+        dir_r = self.direction == Direction.RIGHT
+        dir_u = self.direction == Direction.UP
+        dir_d = self.direction == Direction.DOWN
 
-            # simple test action
-            action = [1, 0, 0]  # always straight for now
-            next_state, score, reward, done = env.play_step(action)
+        danger_straight = (dir_r and self.is_collision(point_r)) or \
+                          (dir_l and self.is_collision(point_l)) or \
+                          (dir_u and self.is_collision(point_u)) or \
+                          (dir_d and self.is_collision(point_d))
 
-            env.render(screen)
-            clock.tick(10)
+        danger_right = (dir_u and self.is_collision(point_r)) or \
+                       (dir_d and self.is_collision(point_l)) or \
+                       (dir_l and self.is_collision(point_u)) or \
+                       (dir_r and self.is_collision(point_d))
 
-        pygame.quit()
+        danger_left = (dir_d and self.is_collision(point_r)) or \
+                      (dir_u and self.is_collision(point_l)) or \
+                      (dir_r and self.is_collision(point_u)) or \
+                      (dir_l and self.is_collision(point_d))
+
+
+        food_left = self.food.x < self.head.x
+        food_right = self.food.x > self.head.x
+        food_up = self.food.y < self.head.y
+        food_down = self.food.y > self.head.y
+
+        state = np.array([
+            danger_straight,
+            danger_right,
+            danger_left,
+            dir_l,
+            dir_r,
+            dir_u,
+            dir_d,
+            food_left,
+            food_right,
+            food_up,
+            food_down
+        ], dtype=int)
+        return state
+
+if __name__ == "__main__":
+    pygame.init()
+    env = snekEnv()
+    screen = pygame.display.set_mode((env.width, env.height))
+    clock = pygame.time.Clock()
+
+    done = False
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+
+        # simple test action
+        action = [1, 0, 0]  # always straight for now
+        next_state, score, reward, done = env.play_step(action)
+
+        env.render(screen)
+        clock.tick(10)
+
+    pygame.quit()
