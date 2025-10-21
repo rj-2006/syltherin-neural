@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee5c4afe-f297-4f7a-93e1-7306470a4350" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/agents/dqn.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/envs/snek.py" beforeDir="false" afterPath="$PROJECT_DIR$/envs/snek.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/replay_buffer.py" beforeDir="false" afterPath="$PROJECT_DIR$/replay_buffer.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,7 +70,7 @@
       <updated>1760893161930</updated>
       <workItem from="1760893171751" duration="2475000" />
       <workItem from="1760980723089" duration="3634000" />
-      <workItem from="1761064173388" duration="1059000" />
+      <workItem from="1761064173388" duration="2189000" />
     </task>
     <servers />
   </component>
